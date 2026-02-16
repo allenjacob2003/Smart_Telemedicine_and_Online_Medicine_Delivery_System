@@ -1,0 +1,548 @@
+/* ============================================
+   Patient Layout - Premium Sidebar & Shell
+   ============================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+:root {
+  --pl-bg: #f1f5f9;
+  --pl-sidebar: #ffffff;
+  --pl-primary: #2563eb;
+  --pl-primary-dark: #1d4ed8;
+  --pl-muted: #94a3b8;
+  --pl-text: #0f172a;
+  --pl-border: #e2e8f0;
+}
+
+.pl-shell {
+  display: flex;
+  min-height: 100vh;
+  background: var(--pl-bg);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+/* === Sidebar === */
+.pl-sidebar {
+  width: 272px;
+  background: linear-gradient(180deg, #0f172a 0%, #1e293b 100%);
+  padding: 24px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  transition: all 0.3s ease;
+  z-index: 200;
+  overflow-y: auto;
+}
+
+/* === Profile Section === */
+.pl-profile {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 10px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.pl-profile img {
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  object-fit: cover;
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
+}
+
+.pl-profile img:hover {
+  border-color: rgba(56, 189, 248, 0.4);
+}
+
+.pl-profile p {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.45);
+  font-size: 0.75rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.pl-profile h3 {
+  margin: 2px 0 0;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #ffffff;
+}
+
+/* === Navigation === */
+.pl-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+.pl-nav-link {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 11px 14px;
+  border-radius: 12px;
+  color: rgba(255, 255, 255, 0.55);
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 0.88rem;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  position: relative;
+}
+
+.pl-nav-link .pl-icon {
+  color: rgba(255, 255, 255, 0.45);
+  font-size: 1.15rem;
+  transition: all 0.2s ease;
+  width: 22px;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.pl-nav-link:hover {
+  background: rgba(255, 255, 255, 0.07);
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.pl-nav-link:hover .pl-icon {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.pl-nav-link.active {
+  background: linear-gradient(135deg, rgba(37, 99, 235, 0.2), rgba(56, 189, 248, 0.12));
+  color: #ffffff;
+  font-weight: 600;
+  box-shadow: 0 2px 8px rgba(37, 99, 235, 0.15);
+}
+
+.pl-nav-link.active::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 3px;
+  height: 60%;
+  border-radius: 0 99px 99px 0;
+  background: linear-gradient(180deg, #38bdf8, #2563eb);
+}
+
+.pl-nav-link.active .pl-icon {
+  color: #38bdf8;
+}
+
+/* === Logout Button === */
+.pl-logout {
+  margin-top: auto;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 1px solid rgba(239, 68, 68, 0.15);
+  background: rgba(239, 68, 68, 0.08);
+  color: rgba(255, 255, 255, 0.85);
+  font-weight: 600;
+  font-size: 0.88rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: inherit;
+}
+
+.pl-logout:hover {
+  background: rgba(239, 68, 68, 0.15);
+  border-color: rgba(239, 68, 68, 0.25);
+}
+
+.pl-logout .pl-icon {
+  font-size: 1.15rem;
+}
+
+/* === Sidebar Scrollbar === */
+.pl-nav::-webkit-scrollbar {
+  width: 6px;
+}
+
+.pl-nav::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.pl-nav::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 999px;
+}
+
+.pl-nav::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* === Main Content Area === */
+.pl-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+/* === Top Bar === */
+.pl-topbar {
+  display: flex;
+  align-items: center;
+  padding: 20px 32px;
+  background: #ffffff;
+  border-bottom: 1px solid var(--pl-border);
+  position: sticky;
+  top: 0;
+  z-index: 260;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+
+.pl-topbar h2 {
+  margin: 0;
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--pl-text);
+  letter-spacing: -0.2px;
+}
+
+/* === Content === */
+.pl-content {
+  padding: 24px 32px 32px;
+  flex: 1;
+  overflow-y: auto;
+}
+
+/* === Mobile Dropdown Navigation === */
+.pl-mobile-dropdown {
+  display: none;
+}
+
+.pl-mobile-nav-item {
+  border: none;
+  background: transparent;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  cursor: pointer;
+  text-align: left;
+  font-family: inherit;
+  color: var(--pl-text);
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 0.9rem;
+  transition: all 0.2s ease;
+}
+
+.pl-mobile-nav-item:hover {
+  background: rgba(37, 99, 235, 0.06);
+}
+
+.pl-mobile-nav-item.active {
+  background: rgba(37, 99, 235, 0.08);
+  color: var(--pl-primary);
+  font-weight: 600;
+}
+
+.pl-mobile-nav-icon {
+  width: 26px;
+  height: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.05rem;
+  flex: 0 0 auto;
+  color: var(--pl-muted);
+}
+
+.pl-mobile-nav-item.active .pl-mobile-nav-icon {
+  color: var(--pl-primary);
+}
+
+.pl-mobile-nav-label {
+  font-weight: inherit;
+  font-size: inherit;
+  color: inherit;
+}
+
+.pl-mobile-logout {
+  color: #dc2626;
+}
+
+/* === Mobile Menu Toggle === */
+.pl-mobile-toggle {
+  display: none;
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+  color: white;
+  border: none;
+  box-shadow: 0 4px 20px rgba(37, 99, 235, 0.4);
+  cursor: pointer;
+  z-index: 1000;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  transition: all 0.3s ease;
+}
+
+.pl-mobile-toggle:hover {
+  transform: scale(1.1);
+}
+
+/* === Topbar Toggle (Mobile) === */
+.pl-topbar-toggle {
+  display: none;
+  background: none;
+  border: none;
+  font-size: 1.4rem;
+  cursor: pointer;
+  padding: 8px;
+  margin-right: 12px;
+  border-radius: 10px;
+  transition: all 0.2s ease;
+  color: var(--pl-text);
+}
+
+.pl-topbar-toggle:hover {
+  background: rgba(37, 99, 235, 0.08);
+  color: var(--pl-primary);
+}
+
+/* === Mobile Overlay === */
+.pl-mobile-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(15, 23, 42, 0.5);
+  backdrop-filter: blur(4px);
+  z-index: 199;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.pl-mobile-overlay.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* === Loading State === */
+.pl-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 300px;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* === Animations === */
+@keyframes pl-fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.pl-content > * {
+  animation: pl-fadeIn 0.4s ease;
+}
+
+/* ===================================
+   Responsive Design
+   =================================== */
+
+/* Tablet */
+@media (max-width: 1024px) {
+  .pl-dashboard-shell .pl-sidebar {
+    display: none;
+  }
+
+  .pl-dashboard-shell .pl-mobile-dropdown {
+    display: block;
+    position: fixed;
+    left: 12px;
+    right: 12px;
+    top: 70px;
+    background: #ffffff;
+    border: 1px solid var(--pl-border);
+    border-radius: 16px;
+    box-shadow: 0 8px 32px rgba(15, 23, 42, 0.12), 0 0 0 1px rgba(255,255,255,0.8) inset;
+    z-index: 250;
+    padding: 8px;
+    max-height: calc(100vh - 100px);
+    overflow: auto;
+    opacity: 0;
+    transform: translateY(-8px);
+    pointer-events: none;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .pl-dashboard-shell .pl-mobile-dropdown.open {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+
+  .pl-mobile-overlay {
+    display: block;
+  }
+
+  .pl-topbar-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .pl-profile {
+    flex-direction: row;
+  }
+
+  .pl-profile img {
+    width: 48px;
+    height: 48px;
+  }
+
+  .pl-nav {
+    flex-direction: column;
+    flex-wrap: nowrap;
+    gap: 4px;
+    justify-content: flex-start;
+    width: 100%;
+    overflow-y: auto;
+  }
+
+  .pl-nav-link {
+    padding: 11px 14px;
+    font-size: 0.88rem;
+  }
+
+  .pl-nav-link:hover,
+  .pl-nav-link.active {
+    transform: none;
+  }
+
+  .pl-logout {
+    margin-top: auto;
+  }
+
+  .pl-logout:hover {
+    transform: none;
+  }
+
+  .pl-topbar {
+    padding: 16px 20px;
+  }
+
+  .pl-topbar h2 {
+    font-size: 1.2rem;
+  }
+
+  .pl-content {
+    padding: 16px 20px 20px;
+  }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .pl-profile h3 {
+    font-size: 0.9rem;
+  }
+
+  .pl-profile p {
+    font-size: 0.7rem;
+  }
+
+  .pl-nav {
+    overflow-y: auto;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    padding-bottom: 8px;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .pl-nav-link {
+    padding: 10px 12px;
+    font-size: 0.85rem;
+    white-space: nowrap;
+  }
+
+  .pl-topbar {
+    padding: 14px 16px;
+  }
+
+  .pl-topbar h2 {
+    font-size: 1.1rem;
+  }
+
+  .pl-content {
+    padding: 12px 16px 16px;
+  }
+
+  .pl-mobile-toggle {
+    display: none;
+    width: 50px;
+    height: 50px;
+    font-size: 1.3rem;
+  }
+}
+
+/* Small Mobile */
+@media (max-width: 480px) {
+  .pl-profile img {
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+  }
+
+  .pl-profile h3 {
+    font-size: 0.85rem;
+  }
+
+  .pl-nav-link {
+    padding: 8px 10px;
+    font-size: 0.8rem;
+    gap: 8px;
+  }
+
+  .pl-nav-link .pl-icon {
+    font-size: 0.95rem;
+  }
+
+  .pl-logout {
+    padding: 10px 12px;
+    font-size: 0.8rem;
+  }
+
+  .pl-topbar h2 {
+    font-size: 1rem;
+  }
+
+  .pl-content {
+    padding: 8px 12px 12px;
+  }
+
+  .pl-mobile-toggle {
+    display: none;
+  }
+}

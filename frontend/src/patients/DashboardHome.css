@@ -1,0 +1,641 @@
+/* ============================================
+   Patient Dashboard Home - Premium UI
+   ============================================ */
+
+/* === Greeting Banner === */
+.pd-greeting-card {
+  background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 50%, #3b82f6 100%);
+  border-radius: 20px;
+  padding: 32px 34px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 28px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 8px 32px rgba(37, 99, 235, 0.2);
+}
+
+.pd-greeting-card::before {
+  content: '';
+  position: absolute;
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.06);
+  top: -120px;
+  right: -60px;
+  pointer-events: none;
+}
+
+.pd-greeting-card::after {
+  content: '';
+  position: absolute;
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.04);
+  bottom: -60px;
+  left: 20%;
+  pointer-events: none;
+}
+
+.pd-greeting-card p {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.8);
+  font-weight: 500;
+  font-size: 0.95rem;
+}
+
+.pd-greeting-card h3 {
+  margin: 6px 0 8px;
+  font-size: 1.75rem;
+  color: #ffffff;
+  font-weight: 700;
+  letter-spacing: -0.3px;
+}
+
+.pd-greeting-card > div > span {
+  color: rgba(255, 255, 255, 0.65);
+  font-size: 0.9rem;
+}
+
+.pd-greeting-card img {
+  width: 170px;
+  height: auto;
+  position: relative;
+  z-index: 1;
+  filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.15));
+  animation: pd-doctorFloat 4s ease-in-out infinite;
+}
+
+@keyframes pd-doctorFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+/* === Summary Cards Row === */
+.pd-summary-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+  margin-bottom: 28px;
+}
+
+.pd-summary-card {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 22px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  position: relative;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 6px 24px rgba(15, 23, 42, 0.06);
+  border: 1px solid rgba(226, 232, 240, 0.6);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+}
+
+.pd-summary-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #2563eb, #38bdf8);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.pd-summary-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.04), 0 12px 32px rgba(15, 23, 42, 0.1);
+}
+
+.pd-summary-card:hover::before {
+  opacity: 1;
+}
+
+.pd-summary-card:nth-child(1) { animation-delay: 0.05s; }
+.pd-summary-card:nth-child(2) { animation-delay: 0.1s; }
+.pd-summary-card:nth-child(3) { animation-delay: 0.15s; }
+.pd-summary-card:nth-child(4) { animation-delay: 0.2s; }
+
+.pd-summary-card p {
+  margin: 0;
+  color: #64748b;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.pd-summary-card h4 {
+  margin: 0;
+  font-size: 1.9rem;
+  font-weight: 800;
+  color: #0f172a;
+  letter-spacing: -0.5px;
+}
+
+.pd-summary-card button {
+  border: none;
+  background: none;
+  color: #2563eb;
+  font-weight: 600;
+  text-align: left;
+  padding: 0;
+  cursor: pointer;
+  font-size: 0.85rem;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  transition: color 0.2s, gap 0.2s;
+}
+
+.pd-summary-card button:hover {
+  color: #1d4ed8;
+  gap: 8px;
+}
+
+.pd-summary-card button::after {
+  content: '\2192';
+  font-size: 1rem;
+  transition: transform 0.2s;
+}
+
+.pd-summary-card button:hover::after {
+  transform: translateX(2px);
+}
+
+.pd-card-icon {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  font-size: 1.5rem;
+  width: 42px;
+  height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, rgba(37, 99, 235, 0.08), rgba(56, 189, 248, 0.08));
+  border-radius: 12px;
+}
+
+/* === Two Column Section === */
+.pd-two-column {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin-bottom: 28px;
+}
+
+.pd-panel {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 6px 24px rgba(15, 23, 42, 0.06);
+  border: 1px solid rgba(226, 232, 240, 0.6);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  transition: box-shadow 0.3s ease;
+}
+
+.pd-panel:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.04), 0 12px 32px rgba(15, 23, 42, 0.1);
+}
+
+.pd-panel header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.pd-panel header h4 {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.pd-panel header span {
+  color: #2563eb;
+  font-weight: 600;
+  font-size: 0.8rem;
+  background: rgba(37, 99, 235, 0.08);
+  padding: 4px 12px;
+  border-radius: 99px;
+}
+
+.pd-panel header button {
+  color: #2563eb;
+  font-weight: 600;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 0.85rem;
+  transition: color 0.2s;
+}
+
+.pd-panel header button:hover {
+  color: #1d4ed8;
+}
+
+/* === Appointment === */
+.pd-appointment h5 {
+  margin: 0;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.pd-appointment > p {
+  margin: 4px 0 12px;
+  color: #64748b;
+  font-size: 0.9rem;
+}
+
+.pd-appointment-meta {
+  display: flex;
+  gap: 20px;
+  color: #0f172a;
+  background: #f8fafc;
+  border-radius: 12px;
+  padding: 12px 16px;
+  border: 1px solid #f1f5f9;
+}
+
+.pd-appointment-meta p {
+  margin: 0;
+  font-size: 0.85rem;
+  color: #475569;
+}
+
+.pd-appointment-meta strong {
+  color: #0f172a;
+}
+
+.pd-appointment button {
+  margin-top: 16px;
+  border: none;
+  border-radius: 12px;
+  padding: 12px 20px;
+  background: linear-gradient(135deg, #2563eb, #3b82f6);
+  color: #fff;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(37, 99, 235, 0.25);
+  transition: all 0.25s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.pd-appointment button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(37, 99, 235, 0.35);
+  background: linear-gradient(135deg, #1d4ed8, #2563eb);
+}
+
+/* === Prescription List === */
+.pd-prescription-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.pd-prescription-list li {
+  background: #f8fafc;
+  border-radius: 12px;
+  padding: 14px 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px solid #f1f5f9;
+  transition: all 0.2s ease;
+}
+
+.pd-prescription-list li:hover {
+  background: #f1f5f9;
+  border-color: #e2e8f0;
+}
+
+.pd-prescription-list li p {
+  margin: 0;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #1e293b;
+}
+
+.pd-prescription-list li span {
+  font-size: 0.8rem;
+  color: #94a3b8;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.pd-empty {
+  margin: 0;
+  padding: 20px 0;
+  color: #94a3b8;
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+/* === Action Cards === */
+.pd-actions-row {
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 24px;
+}
+
+.pd-action-card {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 28px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 6px 24px rgba(15, 23, 42, 0.06);
+  border: 1px solid rgba(226, 232, 240, 0.6);
+  transition: all 0.3s ease;
+  overflow: hidden;
+  position: relative;
+}
+
+.pd-action-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.04), 0 12px 32px rgba(15, 23, 42, 0.1);
+}
+
+.pd-action-card.secondary {
+  background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%);
+  border: none;
+}
+
+.pd-action-card.secondary h5,
+.pd-action-card.secondary p {
+  color: rgba(255, 255, 255, 0.95);
+}
+
+.pd-action-card.secondary p {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.pd-action-card.secondary button {
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.pd-action-card.secondary button:hover {
+  background: rgba(255, 255, 255, 0.3);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
+}
+
+.pd-action-card.secondary::before {
+  content: '';
+  position: absolute;
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.05);
+  top: -80px;
+  right: -60px;
+  pointer-events: none;
+}
+
+.pd-action-card h5 {
+  margin: 0 0 6px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.pd-action-card p {
+  margin: 0 0 16px;
+  color: #64748b;
+  font-size: 0.9rem;
+}
+
+.pd-action-card button {
+  border: none;
+  border-radius: 12px;
+  padding: 11px 20px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  background: linear-gradient(135deg, #2563eb, #3b82f6);
+  color: #fff;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(37, 99, 235, 0.25);
+  transition: all 0.25s ease;
+}
+
+.pd-action-card button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(37, 99, 235, 0.35);
+}
+
+.pd-action-card img {
+  width: 120px;
+  height: auto;
+  filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.1));
+}
+
+/* === Loading States === */
+.pd-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 300px;
+  gap: 18px;
+}
+
+.pd-loading-spinner {
+  width: 44px;
+  height: 44px;
+  border: 3px solid #e2e8f0;
+  border-top-color: #2563eb;
+  border-radius: 50%;
+  animation: pd-spin 0.8s linear infinite;
+}
+
+@keyframes pd-spin {
+  to { transform: rotate(360deg); }
+}
+
+.pd-loading-text {
+  color: #64748b;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+/* Skeleton Loading */
+.pd-skeleton {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e8e8e8 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: pd-shimmer 1.5s infinite;
+  border-radius: 12px;
+}
+
+@keyframes pd-shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* === Animations === */
+.pd-fade-in {
+  animation: pd-fadeIn 0.5s ease;
+}
+
+@keyframes pd-fadeIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.pd-summary-card {
+  animation: pd-fadeIn 0.4s ease backwards;
+}
+
+/* ===================================
+   Responsive Design
+   =================================== */
+
+/* Tablets */
+@media (max-width: 1024px) {
+  .pd-greeting-card {
+    padding: 26px;
+  }
+
+  .pd-greeting-card img {
+    width: 140px;
+  }
+
+  .pd-greeting-card h3 {
+    font-size: 1.5rem;
+  }
+
+  .pd-summary-row {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .pd-two-column {
+    grid-template-columns: 1fr;
+  }
+
+  .pd-actions-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .pd-greeting-card {
+    flex-direction: column;
+    text-align: center;
+    padding: 24px 20px;
+    gap: 16px;
+  }
+
+  .pd-greeting-card img {
+    width: 130px;
+    order: -1;
+  }
+
+  .pd-greeting-card h3 {
+    font-size: 1.4rem;
+  }
+
+  .pd-summary-row {
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  .pd-summary-card {
+    padding: 16px;
+  }
+
+  .pd-summary-card h4 {
+    font-size: 1.5rem;
+  }
+
+  .pd-panel {
+    padding: 18px;
+  }
+
+  .pd-panel header h4 {
+    font-size: 1rem;
+  }
+
+  .pd-action-card {
+    flex-direction: column;
+    text-align: center;
+    padding: 22px 20px;
+    gap: 16px;
+  }
+
+  .pd-action-card img {
+    width: 100px;
+  }
+}
+
+/* Small Mobile */
+@media (max-width: 480px) {
+  .pd-greeting-card {
+    padding: 20px 16px;
+  }
+
+  .pd-greeting-card h3 {
+    font-size: 1.25rem;
+  }
+
+  .pd-greeting-card > div > span {
+    font-size: 0.85rem;
+  }
+
+  .pd-summary-row {
+    grid-template-columns: 1fr;
+  }
+
+  .pd-summary-card {
+    padding: 14px;
+  }
+
+  .pd-summary-card p {
+    font-size: 0.8rem;
+  }
+
+  .pd-summary-card h4 {
+    font-size: 1.3rem;
+  }
+
+  .pd-summary-card button {
+    font-size: 0.8rem;
+  }
+
+  .pd-panel {
+    padding: 14px;
+  }
+
+  .pd-appointment-meta {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .pd-appointment button {
+    width: 100%;
+    text-align: center;
+    justify-content: center;
+  }
+
+  .pd-prescription-list li {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
+}
