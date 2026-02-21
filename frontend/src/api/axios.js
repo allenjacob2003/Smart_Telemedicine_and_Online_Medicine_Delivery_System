@@ -2,7 +2,8 @@ import axios from 'axios'
 
 // Axios instance for the Django REST backend
 const api = axios.create({
-  baseURL: 'http://127.0.0.1:8000/api/',
+  // baseURL: 'http://127.0.0.1:8000/api',
+  baseURL: 'https://telemedicine-backend-rank.onrender.com/api',
   headers: {
     'Content-Type': 'application/json',
   },
@@ -17,9 +18,15 @@ api.interceptors.request.use(
     }
     return config
   },
+
+
+  
   (error) => {
     return Promise.reject(error)
   }
 )
+
+
+
 
 export default api

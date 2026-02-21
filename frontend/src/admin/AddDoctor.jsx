@@ -13,6 +13,7 @@ const AddDoctor = ({ departments }) => {
     const [error, setError] = useState('')
     const [success, setSuccess] = useState('')
     const [warning, setWarning] = useState('')
+
     const [loading, setLoading] = useState(false)
 
     const safeDepartments = Array.isArray(departments) ? departments : []
@@ -42,7 +43,8 @@ const AddDoctor = ({ departments }) => {
                 // Keep the detailed reason only in console; avoid exposing server details to users.
                 if (emailError) console.warn('Doctor welcome email failed:', emailError)
             } else {
-                setSuccess('Doctor added successfully. Email sent to doctor.')
+                setSuccess('Doctor added successfully. Email sent to doctor.!!')
+            
             }
 
             setForm({ name: '', email: '', password: '', specialization: '', phone: '', department: '' })
