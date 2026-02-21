@@ -269,35 +269,59 @@ def patient_profile(request):
     if not patient:
         return Response({'detail': 'Patient email is required.'}, status=status.HTTP_400_BAD_REQUEST)
 
-    data = {
-        'id': patient.id,
-        'full_name': patient.full_name,
-        'email': patient.user.email,
-        'phone': patient.phone,
-        'age': patient.age,
-        'gender': patient.gender,
-    }
-    return Response(data)
+    serializer = PatientProfileSerializer(patient, context={'request': request})
+    return Response(serializer.data)
 
 
-@api_view(['PUT'])
+@api_view(['POST'])
 def patient_profile_update(request):
     patient = _get_patient_profile(request)
     if not patient:
         return Response({'detail': 'Patient email is required.'}, status=status.HTTP_400_BAD_REQUEST)
 
-    patient.full_name = request.data.get('name', patient.full_name)
-    patient.phone = request.data.get('phone', patient.phone)
-    patient.age = request.data.get('age', patient.age)
-    patient.gender = request.data.get('gender', patient.gender)
+    # Get the image data if provided
+    image_data = request.data.get('profile_image')
+    
+    # Only update profile fields that are provided, don't touch name/phone etc if not changing
+    if 'name' in request.data:
+        patient.full_name = request.data.get('name')
+    if 'phone' in request.data:
+        patient.phone = request.data.get('phone')
+    if 'age' in request.data:
+        patient.age = request.data.get('age')
+    if 'gender' in request.data:
+        patient.gender = request.data.get('gender')
+    
+    # Handle image upload
+    if image_data is not None:  # Check if image_data is in the request
+        if image_data and image_data != 'null' and image_data != '':
+            # Check if it's a base64 string
+            if isinstance(image_data, str) and image_data.startswith('data:image'):
+                # Extract base64 string and create file
+                import base64
+                from django.core.files.base import ContentFile
+                
+                try:
+                    format_part, imgstr = image_data.split(';base64,')
+                    ext = format_part.split('/')[-1]
+                    decoded_data = base64.b64decode(imgstr)
+                    from django.utils.text import slugify
+                    file_name = f"patient_{patient.id}_{slugify(patient.full_name)}.{ext}"
+                    patient.profile_image.save(file_name, ContentFile(decoded_data), save=False)
+                except Exception as e:
+                    return Response({'detail': f'Error processing image: {str(e)}'}, status=status.HTTP_400_BAD_REQUEST)
+            else:
+                # Handle file upload
+                patient.profile_image = image_data
+        else:
+            # Remove image if empty/null
+            if patient.profile_image:
+                patient.profile_image.delete()
+            patient.profile_image = None
+    
     patient.save()
 
-    data = {
-        'id': patient.id,
-        'full_name': patient.full_name,
-        'email': patient.user.email,
-        'phone': patient.phone,
-        'age': patient.age,
-        'gender': patient.gender,
-    }
-    return Response(data)
+    # Return updated profile with image URL
+    serializer = PatientProfileSerializer(patient, context={'request': request})
+    return Response(serializer.data)
+

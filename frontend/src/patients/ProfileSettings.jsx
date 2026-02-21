@@ -13,6 +13,7 @@ const ProfileSettings = () => {
   })
   const [loading, setLoading] = useState(true)
   const [message, setMessage] = useState('')
+  const [messageType, setMessageType] = useState('')
   const [profileImage, setProfileImage] = useState('')
   const [imagePreview, setImagePreview] = useState('')
 
@@ -31,14 +32,16 @@ const ProfileSettings = () => {
           gender: data.gender || '',
         })
 
-        // Load profile image from localStorage
-        const savedImage = localStorage.getItem('patientPhoto')
-        if (savedImage && !savedImage.includes('ui-avatars.com')) {
-          setProfileImage(savedImage)
-          setImagePreview(savedImage)
+        // Load profile image from backend response
+        if (data.profile_image) {
+          setProfileImage(data.profile_image)
+          setImagePreview(data.profile_image)
+          // IMPORTANT: Save image URL to localStorage for sidebar display
+          localStorage.setItem('patientPhoto', data.profile_image)
         }
       } catch (err) {
         setMessage('Unable to load profile details.')
+        setMessageType('error')
       } finally {
         setLoading(false)
       }
@@ -57,6 +60,7 @@ const ProfileSettings = () => {
     if (file) {
       if (file.size > 2 * 1024 * 1024) {
         setMessage('Image size should be less than 2MB')
+        setMessageType('error')
         return
       }
 
@@ -73,36 +77,65 @@ const ProfileSettings = () => {
   const removeImage = () => {
     setProfileImage('')
     setImagePreview('')
-    localStorage.removeItem('patientPhoto')
   }
 
   const handleSubmit = async (event) => {
     event.preventDefault()
     try {
-      await api.put('patients/profile/update/', {
+      // Make sure image is included if it exists
+      const updateData = {
         email: formData.email,
         name: formData.name,
         phone: formData.phone,
         age: formData.age,
         gender: formData.gender,
+      }
+
+      // Add profile image if it exists
+      if (profileImage) {
+        updateData.profile_image = profileImage
+      } else if (profileImage === '') {
+        // Send empty string to remove image
+        updateData.profile_image = 'null'
+      }
+
+      const response = await api.post('patients/profile/update/', updateData)
+      
+      // Update state with response data to ensure image is immediately updated
+      const updatedData = response.data
+      setFormData({
+        name: updatedData.full_name || updatedData.name || '',
+        email: updatedData.email || '',
+        phone: updatedData.phone || '',
+        age: updatedData.age || '',
+        gender: updatedData.gender || '',
       })
 
-      // Save profile image to localStorage
-      if (profileImage) {
-        localStorage.setItem('patientPhoto', profileImage)
+      // Update image with response from backend
+      if (updatedData.profile_image) {
+        setProfileImage(updatedData.profile_image)
+        setImagePreview(updatedData.profile_image)
+        // IMPORTANT: Save image URL to localStorage so it persists across page reloads
+        localStorage.setItem('patientPhoto', updatedData.profile_image)
+      } else if (!profileImage) {
+        setProfileImage('')
+        setImagePreview('')
+        localStorage.removeItem('patientPhoto')
       }
 
       // Update patientName in localStorage
-      localStorage.setItem('patientName', formData.name)
+      localStorage.setItem('patientName', updatedData.full_name || updatedData.name || '')
 
       setMessage('Profile updated successfully.')
+      setMessageType('success')
 
-      // Reload page to update sidebar profile
+      // Optional: Clear message after 3 seconds
       setTimeout(() => {
-        window.location.reload()
-      }, 1000)
+        setMessage('')
+      }, 3000)
     } catch (err) {
       setMessage('Failed to update profile.')
+      setMessageType('error')
     }
   }
 
@@ -126,6 +159,7 @@ const ProfileSettings = () => {
                   src={imagePreview || `https://ui-avatars.com/api/?name=${formData.name || 'Patient'}&background=0ea5e9&color=ffffff`}
                   alt="Profile"
                   className="profile-image-preview"
+                  key={imagePreview || 'default'}
                 />
                 {imagePreview && (
                   <button
@@ -182,7 +216,11 @@ const ProfileSettings = () => {
                 Update Profile
               </button>
             </div>
-            {message && <div className="patient-message">{message}</div>}
+            {message && (
+              <div className={`patient-message ${messageType}`}>
+                {message}
+              </div>
+            )}
           </form>
         )}
       </section>

@@ -1,6 +1,9 @@
 import { useState, useEffect } from 'react'
 import { NavLink, useNavigate, useLocation } from 'react-router-dom'
+import api from '../api/axios'
 import './patientLayout.css'
+
+const BASE_URL = "http://localhost:8000"
 
 const iconSet = {
 	home: '🏠',
@@ -32,15 +35,42 @@ const PatientLayout = ({ children, pageTitle = 'Patient Dashboard' }) => {
 	const navigate = useNavigate()
 	const location = useLocation()
 	const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-	
-	const name =
-		localStorage.getItem('patientName') ||
-		localStorage.getItem('name') ||
-		'Patient'
-	const safeName = (name || '').trim() || 'Patient'
-	const profilePhoto =
-		localStorage.getItem('patientPhoto') ||
-		'https://ui-avatars.com/api/?name=Patient&background=0ea5e9&color=ffffff'
+	const [profilePhoto, setProfilePhoto] = useState(localStorage.getItem('patientPhoto') || 'https://ui-avatars.com/api/?name=Patient&background=0ea5e9&color=ffffff')
+	const [safeName, setSafeName] = useState((localStorage.getItem('patientName') || localStorage.getItem('name') || 'Patient').trim() || 'Patient')
+
+	// Fetch latest profile data on mount to ensure sidebar shows current image
+	useEffect(() => {
+		const loadProfileData = async () => {
+			try {
+				const email = localStorage.getItem('email')
+				if (email) {
+					const response = await api.get('patients/profile/', { params: { email } })
+					const data = response.data || {}
+					
+					// Update name
+					if (data.full_name) {
+						setSafeName(data.full_name)
+						localStorage.setItem('patientName', data.full_name)
+					}
+					
+					// Update profile photo with full URL
+					if (data.profile_image) {
+						const fullImageUrl = data.profile_image.startsWith('http') 
+							? data.profile_image 
+							: `${BASE_URL}${data.profile_image}`
+						setProfilePhoto(fullImageUrl)
+						localStorage.setItem('patientPhoto', fullImageUrl)
+						console.log('[PatientLayout] Profile image loaded:', fullImageUrl)
+					}
+				}
+			} catch (err) {
+				console.error('[PatientLayout] Profile fetch error:', err)
+				// Silent fail - use localStorage as fallback
+			}
+		}
+
+		loadProfileData()
+	}, [])
 
 	const handleLogout = () => {
 		localStorage.clear()

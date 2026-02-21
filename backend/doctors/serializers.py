@@ -7,13 +7,20 @@ from .models import Appointment, ConsultationRequest, DoctorProfile, Prescriptio
 class DoctorProfileSerializer(serializers.ModelSerializer):
     email = serializers.EmailField(source='user.email', read_only=True)
     department_name = serializers.SerializerMethodField()
+    profile_image = serializers.SerializerMethodField()
 
     class Meta:
         model = DoctorProfile
-        fields = '__all__'
+        fields = ['id', 'full_name', 'email', 'specialization', 'department', 'department_name', 
+                  'license_no', 'phone', 'experience_years', 'clinic_address', 'profile_image', 'created_at']
 
     def get_department_name(self, obj):
         return obj.department.name if obj.department else ''
+    
+    def get_profile_image(self, obj):
+        if obj.profile_image:
+            return obj.profile_image.url
+        return None
 
 
 class PatientSummarySerializer(serializers.ModelSerializer):

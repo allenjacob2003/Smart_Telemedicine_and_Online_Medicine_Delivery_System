@@ -12,11 +12,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Explicitly point to the .env file in the backend root
 load_dotenv(dotenv_path=BASE_DIR / '.env')
 
-SECRET_KEY = 'django-insecure-change-this-key'
+# SECRET_KEY = 'django-insecure-change-this-key'
+SECRET_KEY = os.getenv('SECRET_KEY','3)d3&ye9bxh_61@-g(9tdqq2pvp^mc&ur18*f7$)ee7he0epw0')
 
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -67,14 +68,25 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'telemedicine.wsgi.application'
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'telemedicine_db',
+#         'USER': 'root',
+#         'PASSWORD': 'allen2003',
+#         'HOST': 'localhost',
+#         'PORT': '3307',
+#     }
+# }
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'telemedicine_db',
-        'USER': 'root',
-        'PASSWORD': 'allen2003',
-        'HOST': 'localhost',
-        'PORT': '3307',
+        'NAME': os.environ.get('MYSQLDATABASE'),
+        'USER': os.environ.get('MYSQLUSER'),
+        'PASSWORD': os.environ.get('MYSQLPASSWORD'),
+        'HOST': os.environ.get('MYSQLHOST'),
+        'PORT': os.environ.get('MYSQLPORT'),
     }
 }
 

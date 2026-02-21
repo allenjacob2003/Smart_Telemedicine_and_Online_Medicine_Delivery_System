@@ -258,6 +258,33 @@ def doctor_profile_update(request):
         doctor.user.set_password(password)
         doctor.user.save()
 
+    # Handle image upload
+    image_data = request.data.get('profile_image')
+    if image_data is not None:
+        if image_data and image_data != 'null' and image_data != '':
+            if isinstance(image_data, str) and image_data.startswith('data:image'):
+                # Extract base64 string and create file
+                import base64
+                from django.core.files.base import ContentFile
+                
+                try:
+                    format_part, imgstr = image_data.split(';base64,')
+                    ext = format_part.split('/')[-1]
+                    decoded_data = base64.b64decode(imgstr)
+                    from django.utils.text import slugify
+                    file_name = f"doctor_{doctor.id}_{slugify(doctor.full_name)}.{ext}"
+                    doctor.profile_image.save(file_name, ContentFile(decoded_data), save=False)
+                except Exception as e:
+                    return Response({'detail': f'Error processing image: {str(e)}'}, status=status.HTTP_400_BAD_REQUEST)
+            else:
+                # Handle file upload
+                doctor.profile_image = image_data
+        else:
+            # Remove image if empty/null
+            if doctor.profile_image:
+                doctor.profile_image.delete()
+            doctor.profile_image = None
+
     doctor.save()
 
     serializer = DoctorProfileSerializer(doctor)
