@@ -17,8 +17,10 @@ SECRET_KEY = os.getenv('SECRET_KEY','3)d3&ye9bxh_61@-g(9tdqq2pvp^mc&ur18*f7$)ee7
 
 DEBUG = False
 
-ALLOWED_HOSTS = ['*']
 
+ALLOWED_HOSTS = [
+    "*",
+]
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -117,7 +119,11 @@ STATIC_URL = 'static/'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
-CORS_ALLOW_ALL_ORIGINS = True
+# CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOWED_ORIGINS = [
+    "https://smart-telemedicine-and-online-medic.vercel.app/"
+]
+CORS_ALLOW_CREDENTIALS = True
 
 AUTH_USER_MODEL = 'accounts.User'
 
